@@ -38,7 +38,7 @@ let $ = function(x){
     return $
 }
 Object.assign($, {
-    text(){return $},
+    text(){return "0123456789 some fake text"},
     click(){return $},
     attr(){return $},
     animate(){return $},
@@ -52,6 +52,10 @@ Object.assign($, {
     hide(){return $}
 })
 $.ajax = function(options){
+    let {url, data} = options
+    if(url == "/speed_yidong/htmlwork/postData.php"){
+        global_callback(downSpeedArray, upSpeedArray, data)
+    }
 }
 ;($.ready = $.load = function(f){
     setTimeout(f, 1);
@@ -67,6 +71,7 @@ let Showbo = {
     }
 }
 function GetCookie(){}
+let global_callback = function(){throw "global_callback is not defined yet!"}
 
 //  ------ prefix done ------
 
@@ -642,7 +647,7 @@ function message(a) {
                         0 == websocketEight.bufferedAmount && websocketEight.send(c),
                         0 == websocketNine.bufferedAmount && websocketNine.send(c),
                         0 == websocketTen.bufferedAmount && websocketTen.send(c))
-                        } catch(e){console.log(e.message)}
+                        } catch(e){if(false)console.log(e.message)}
                     }, 5)
                 }
             }
@@ -794,9 +799,11 @@ function encryptByDES(a, b) {
 //  ------ suffix begin ------
 
 module.exports = {
-    start() {
+    start(cb) {
+        global_callback = function(downSpeedArray, upSpeedArray, post_data){
+            cb(downSpeedArray, upSpeedArray, post_data)
+        }
         init()
         send()
-        return [downSpeedArray, upSpeedArray]
     }
 }
