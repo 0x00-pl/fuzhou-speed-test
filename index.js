@@ -15,3 +15,5 @@ function speed_test(){
 function main(){
     speed_test().then(console.log)
 }
+
+main()
