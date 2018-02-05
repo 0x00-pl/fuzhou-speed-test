@@ -2,10 +2,32 @@ let CryptoJS = require("crypto-js")
 let window = {
     WebSocket: require('ws')
 }
+let WebSocket = window.WebSocket
+function Blob(arr){
+    let ret = Buffer.from(arr.join(''), 'utf8')
+    ret.size = ret.length
+    return ret
+}
+function FileReader(){
+    let buffer = null
+    let ret = {
+        readAsArrayBuffer(buf){
+            buffer = buf
+        },
+        onload: function(){}
+    }
+    setTimeout(function(){
+        ret.onload({target:{result:buffer}})
+    })  
+    return ret
+}
 let document = {
     getElementById(){
         return null
     }
+}
+let location = {
+    reload(){}
 }
 let navigator = {
     userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36",
@@ -16,19 +38,35 @@ let $ = function(x){
     return $
 }
 Object.assign($, {
-    ready(){return $},
     text(){return $},
     click(){return $},
-    ajax(){return $},
+    attr(){return $},
+    animate(){return $},
+    offset(){return $},
+    scroll(){return $},
+    getScript(){return $},
+    removeClass(){return $},
+    addClass(){return $},
+    find(){return $},
+    eq(){return $},
+    hide(){return $}
+})
+$.ajax = function(options){
+}
+;($.ready = $.load = function(f){
+    setTimeout(f, 1);
 })
 let echarts = {
-    init(){}
+    init(){return {
+        setOption(){}
+    }}
 }
 let Showbo = {
     Msg: {
-        alert: console.log
+        alert(msg){console.log('[showbo]: ', msg)}
     }
 }
+function GetCookie(){}
 
 //  ------ prefix done ------
 
@@ -527,6 +565,7 @@ function close() {
     console.log("\u8fde\u63a5\u5173\u95ed\uff01")
 }
 function message(a) {
+    console.log('[debug][message]: ', a.data)
     if ("CONTROL:[CONNECTED];" == a.data)
         websocket.send("CONTROL:[PREDOWN] | SIZE:[" + preDownSize + "];"),
         setTimeout(function() {
@@ -591,7 +630,9 @@ function message(a) {
                 a.readAsArrayBuffer(blobMax);
                 a.onload = function(a) {
                     var c = a.target.result;
+                    console.log('[debug][send]: ', c)
                     b = setInterval(function() {
+                        try {
                         0 == websocketTwo.bufferedAmount && websocketTwo.send(c);
                         0 == websocketThree.bufferedAmount && websocketThree.send(c);
                         0 == websocketFour.bufferedAmount && websocketFour.send(c);
@@ -601,6 +642,7 @@ function message(a) {
                         0 == websocketEight.bufferedAmount && websocketEight.send(c),
                         0 == websocketNine.bufferedAmount && websocketNine.send(c),
                         0 == websocketTen.bufferedAmount && websocketTen.send(c))
+                        } catch(e){console.log(e.message)}
                     }, 5)
                 }
             }
@@ -753,7 +795,8 @@ function encryptByDES(a, b) {
 
 module.exports = {
     start() {
-        init();
+        init()
         send()
+        return [downSpeedArray, upSpeedArray]
     }
 }
