@@ -1,3 +1,37 @@
+let CryptoJS = require("crypto-js")
+let window = {
+    WebSocket: require('ws')
+}
+let document = {
+    getElementById(){
+        return null
+    }
+}
+let navigator = {
+    userAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36",
+    appVersion: "5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36",
+    platform: "Linux x86_64"
+}
+let $ = function(x){
+    return $
+}
+Object.assign($, {
+    ready(){return $},
+    text(){return $},
+    click(){return $},
+    ajax(){return $},
+})
+let echarts = {
+    init(){}
+}
+let Showbo = {
+    Msg: {
+        alert: console.log
+    }
+}
+
+//  ------ prefix done ------
+
 var websocketTestUrl = "ws://218.207.186.180:9002"
   , tempSize = 10240
   , blobArray = null
@@ -713,3 +747,13 @@ function encryptByDES(a, b) {
     }).toString()
 }
 ;
+
+
+//  ------ suffix begin ------
+
+module.exports = {
+    start() {
+        init();
+        send()
+    }
+}
