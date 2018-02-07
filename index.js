@@ -1,9 +1,10 @@
 let vm135 = require('./vm135.js')
 let { Promise } = require('es6-promise')
+let process = require('process')
 
-function speed_test(){
+function speed_test(site_index){
     return new Promise((resolve, reject)=>{
-        vm135.start((downSpeedArray, upSpeedArray, postData)=>resolve({
+        vm135.start(site_index, (downSpeedArray, upSpeedArray, postData)=>resolve({
             downSpeedArray,
             upSpeedArray,
             postData
@@ -13,7 +14,11 @@ function speed_test(){
 
 
 function main(){
-    speed_test().then(console.log)
+    speed_test(0).then(console.log)
 }
 
-main()
+if (require.main === module) {
+    speed_test(process.argv[2])
+}
+
+module.exports = speed_test

@@ -799,11 +799,12 @@ function encryptByDES(a, b) {
 //  ------ suffix begin ------
 
 module.exports = {
-    start(cb) {
+    start(site_index, cb) {
         global_callback = function(downSpeedArray, upSpeedArray, post_data){
             cb(downSpeedArray, upSpeedArray, post_data)
         }
         init()
+        if(site_index){ selectTest(site_index) }
         send()
     }
 }
