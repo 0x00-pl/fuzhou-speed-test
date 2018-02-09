@@ -804,7 +804,13 @@ module.exports = {
             cb(downSpeedArray, upSpeedArray, post_data)
         }
         init()
-        if(site_index){ selectTest(site_index) }
+        if(site_index){
+            if(typeof site_index == 'number'){
+                selectTest(site_index)
+            } else if(typeof site_index == 'string'){
+                websocketTestUrl = site_index
+            }
+        }
         send()
     }
 }
