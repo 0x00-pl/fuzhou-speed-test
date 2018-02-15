@@ -4,11 +4,16 @@ let process = require('process')
 
 function speed_test(site_index){
     return new Promise((resolve, reject)=>{
-        vm135.start(site_index, (downSpeedArray, upSpeedArray, postData)=>resolve({
-            downSpeedArray,
-            upSpeedArray,
-            postData
-        }))
+        vm135.start(site_index, (err, downSpeedArray, upSpeedArray, postData)=>{
+            if(err) { reject(err) }
+            else {
+                resolve({
+                    downSpeedArray,
+                    upSpeedArray,
+                    postData
+                })
+            }
+        })
     })
 }
 

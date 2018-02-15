@@ -67,11 +67,18 @@ let echarts = {
 }
 let Showbo = {
     Msg: {
-        alert(msg){console.log('[showbo]: ', msg)}
+        alert(msg){
+            console.log('[showbo]: ', msg)
+            let msg_error = "\u6d4b\u8bd5\u8fde\u63a5\u5f02\u5e38\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\uff01"
+            if(msg in [msg_error]){
+                global_callback_error(msg)
+            }
+        }
     }
 }
 function GetCookie(){}
 let global_callback = function(){throw "global_callback is not defined yet!"}
+let global_callback_error = function(){throw "global_callback_error is not defined yet!"}
 
 //  ------ prefix done ------
 
@@ -801,7 +808,10 @@ function encryptByDES(a, b) {
 module.exports = {
     start(site_index, cb) {
         global_callback = function(downSpeedArray, upSpeedArray, post_data){
-            cb(downSpeedArray, upSpeedArray, post_data)
+            cb(null, downSpeedArray, upSpeedArray, post_data)
+        }
+        global_callback_error = function(err){
+            cb(err)
         }
         init()
         if(site_index){
